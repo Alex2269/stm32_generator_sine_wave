@@ -161,8 +161,7 @@ int main(void)
   SCB_DEMCR|=0x01000000;
   DWT_CONTROL|=1;
   DWT_CYCCNT = 0;
-  HAL_TIM_Base_Start(&htim4); // generator_sine_wave_2.ioc
-  HAL_TIM_Base_Start(&htim6); // generator_sine_wave.ioc
+  HAL_TIM_Base_Start(&htim6);
   HAL_DAC_Start_DMA (&hdac, DAC_CHANNEL_1,(uint32_t*)buf_sin,60,DAC_ALIGN_12B_R);
 
   /* USER CODE END 2 */
