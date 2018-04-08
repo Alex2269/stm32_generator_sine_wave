@@ -172,21 +172,22 @@ int main(void)
   {
     HAL_Delay(300);
 
-    sprintf(str,"%u",frq);//quantity of steps for the period
-    LiquidCrystal_I2C_SetCursor(6, 0);
-    LiquidCrystal_I2C_PrintString(str);
-
     sprintf(str,"%u",clk_counter);//quantity of steps for the period
     LiquidCrystal_I2C_SetCursor(0, 0);
+    LiquidCrystal_I2C_PrintString(str);
+
+    sprintf(str,"%u",frq);//quantity of steps for the period
+    LiquidCrystal_I2C_SetCursor(6, 0);
     LiquidCrystal_I2C_PrintString(str);
 
     sprintf(str,"%u",(clk_counter*1000)/(frq/1000));//period time in microseconds
     LiquidCrystal_I2C_SetCursor(0, 1);
     LiquidCrystal_I2C_PrintString(str);
 
-    sprintf(str,"%u",frq/clk_counter);//frequency in hertz
+    sprintf(str,"%u",frq/(clk_counter*2));//frequency in hertz
     LiquidCrystal_I2C_SetCursor(8, 1);
     LiquidCrystal_I2C_PrintString(str);
+
     HAL_Delay(1000);
   /* USER CODE END WHILE */
 
