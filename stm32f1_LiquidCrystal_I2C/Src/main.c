@@ -70,8 +70,8 @@ void lcd_start(void)
 {
   LiquidCrystal_I2C_Init(&hi2c1, i2c_modul, 16, 2, LCD_5x8DOTS);
   LiquidCrystal_I2C_SetBacklight(1);
-  LiquidCrystal_I2C_Cursor();
-  LiquidCrystal_I2C_Blink();
+  //LiquidCrystal_I2C_Cursor();
+  //LiquidCrystal_I2C_Blink();
 
   uint8_t fright[8] = {
     0x1F,//11111
