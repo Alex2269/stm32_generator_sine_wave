@@ -51,17 +51,6 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-uint16_t buf_sin[60]=
-{
-  11,45,100,177,274,391,526,678,
-  844,1024,1215,1415,1622,1834,2048,2262,
-  2474,2681,2881,3072,3252,3418,3570,3705,
-  3822,3919,3996,4051,4085,4095,4085,4051,
-  3996,3919,3822,3705,3570,3418,3252,3072,
-  2881,2681,2474,2262,2048,1834,1622,1415,
-  1215,1024,844,678,526,391,274,177,
-  100,45,11,0
-};
 
 uint32_t clk_counter=0;
 char str[20];
@@ -95,8 +84,6 @@ void lcd_start(void)
     0x00
   };
 
-  LiquidCrystal_I2C_CreateChar(0, fright);
-
   uint8_t fleft[8] = {
     0x1F,//11111
     0x0F,//01111
@@ -108,6 +95,7 @@ void lcd_start(void)
     0x00
   };
   
+  LiquidCrystal_I2C_CreateChar(0, fright);
   LiquidCrystal_I2C_CreateChar(1, fleft);
 
   LiquidCrystal_I2C_SetCursor(6,1);
@@ -155,7 +143,6 @@ int main(void)
 
   uint32_t frq = HAL_RCC_GetHCLKFreq();
   HAL_TIM_Base_Start(&htim4);
-  //HAL_DAC_Start_DMA (&hdac, DAC_CHANNEL_1,(uint32_t*)buf_sin,60,DAC_ALIGN_12B_R);
 
   /* USER CODE END 2 */
 
