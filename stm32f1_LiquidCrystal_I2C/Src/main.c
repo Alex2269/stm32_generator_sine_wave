@@ -44,6 +44,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+#include "SetSysClockTo128.h"
 #include "LiquidCrystal_I2C.h"
 /* USER CODE END Includes */
 
@@ -128,7 +129,8 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  HAL_RCC_DeInit();
+  SystemClock_Config128();
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -157,7 +159,7 @@ int main(void)
     LiquidCrystal_I2C_PrintString(str);
 
     sprintf(str,"%u",frq);//quantity of steps for the period
-    LiquidCrystal_I2C_SetCursor(6, 0);
+    LiquidCrystal_I2C_SetCursor(7, 0);
     LiquidCrystal_I2C_PrintString(str);
 
     sprintf(str,"%u",(clk_counter*1000)/(frq/1000));//period time in microseconds
