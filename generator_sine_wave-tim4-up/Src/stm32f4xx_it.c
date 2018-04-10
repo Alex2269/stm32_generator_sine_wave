@@ -167,8 +167,8 @@ void SysTick_Handler(void)
 void DMA1_Stream5_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Stream5_IRQn 0 */
-	clk_counter=DWT_CYCCNT;
-	DWT_CYCCNT=0;
+  clk_counter=DWT_CYCCNT;
+  DWT_CYCCNT=0;
   /* USER CODE END DMA1_Stream5_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_dac1);
   /* USER CODE BEGIN DMA1_Stream5_IRQn 1 */
