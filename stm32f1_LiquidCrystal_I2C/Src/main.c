@@ -136,16 +136,17 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_TIM4_Init();
   MX_I2C1_Init();
-  MX_TIM3_Init();
+  MX_TIM4_Init();
 
   /* USER CODE BEGIN 2 */
   lcd_start();
 
   uint32_t frq = HAL_RCC_GetHCLKFreq();
+  //HAL_TIM_Base_Start(&htim3);
+  //HAL_TIM_Base_Start_IT(&htim3);
   HAL_TIM_Base_Start(&htim4);
-
+  HAL_TIM_Base_Start_IT(&htim4);
   /* USER CODE END 2 */
 
   /* Infinite loop */
