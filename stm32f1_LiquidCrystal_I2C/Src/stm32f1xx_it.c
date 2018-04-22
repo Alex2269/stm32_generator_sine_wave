@@ -195,8 +195,8 @@ void TIM4_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim4);
   /* USER CODE BEGIN TIM4_IRQn 1 */
   HAL_GPIO_TogglePin(LED_STATUS_GPIO_Port, LED_STATUS_Pin);
-  HAL_TIM_Base_Start(&htim4);
-  HAL_TIM_Base_Start_IT(&htim4);
+  //HAL_TIM_Base_Start(&htim3);
+  //HAL_TIM_Base_Start_IT(&htim3);
   /* USER CODE END TIM4_IRQn 1 */
 }
 
