@@ -9,7 +9,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * COPYRIGHT(c) 2018 STMicroelectronics
+  * COPYRIGHT(c) 2019 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -54,18 +54,28 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+#include "math.h"
+#define sinus_points 256
+#define sinus_amplitude (2048/sinus_points)
+/* USER CODE END Includes */
+
 /* Private variables ---------------------------------------------------------*/
-uint16_t buf_sin[60]=
+
+/* USER CODE BEGIN PV */
+/* Private variables ---------------------------------------------------------*/
+
+float PI = 3.14;
+uint16_t sin_table_a[sinus_points];
+
+void sin_init(void)
 {
-  11,45,100,177,274,391,526,678,
-  844,1024,1215,1415,1622,1834,2048,2262,
-  2474,2681,2881,3072,3252,3418,3570,3705,
-  3822,3919,3996,4051,4085,4095,4085,4051,
-  3996,3919,3822,3705,3570,3418,3252,3072,
-  2881,2681,2474,2262,2048,1834,1622,1415,
-  1215,1024,844,678,526,391,274,177,
-  100,45,11,0
-};
+  for (uint32_t i=0; i < sinus_points; i++)
+  {
+    sin_table_a[(i+sinus_points)]=0;
+    sin_table_a[(i+sinus_points) & (sinus_points-1)]=127+255+
+    (uint16_t)sinus_amplitude*((sin(i*(float)(2*PI/sinus_points))+1)*(float)(sinus_points/2-1));
+  }
+}
 
 uint32_t clk_counter=0;
 char str[20];
@@ -87,37 +97,11 @@ void lcd_start(void)
   LiquidCrystal_I2C_SetBacklight(1);
   LiquidCrystal_I2C_Cursor();
   LiquidCrystal_I2C_Blink();
-
-  uint8_t fright[8] = {
-    0x1F,//11111
-    0x1E,//11110
-    0x1F,//11111
-    0x10,//10000
-    0x10,//10000
-    0x10,//10000
-    0x10,//10000
-    0x00
-  };
-
-  LiquidCrystal_I2C_CreateChar(0, fright);
-
-  uint8_t fleft[8] = {
-    0x1F,//11111
-    0x0F,//01111
-    0x1F,//11111
-    0x01,//00001
-    0x01,//00001
-    0x01,//00001
-    0x01,//00001
-    0x00
-  };
-  
-  LiquidCrystal_I2C_CreateChar(1, fleft);
+  // LiquidCrystal_I2C_NoBlink();
 
   LiquidCrystal_I2C_SetCursor(6,1);
   LiquidCrystal_I2C_PrintString("*STM32*");
-  LiquidCrystal_I2C_WriteSymbol(0);
-  LiquidCrystal_I2C_WriteSymbolCustomDDRAM(0xC5, 1);
+
   LiquidCrystal_I2C_SetCursor(0,0);
   HAL_Delay(1000);
   LiquidCrystal_I2C_Clear();
@@ -128,7 +112,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+  sin_init();
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -161,8 +145,9 @@ int main(void)
   SCB_DEMCR|=0x01000000;
   DWT_CONTROL|=1;
   DWT_CYCCNT = 0;
+
   HAL_TIM_Base_Start(&htim4);
-  HAL_DAC_Start_DMA (&hdac, DAC_CHANNEL_1,(uint32_t*)buf_sin,60,DAC_ALIGN_12B_R);
+  HAL_DAC_Start_DMA (&hdac, DAC_CHANNEL_1,(uint32_t*)sin_table_a,sinus_points,DAC_ALIGN_12B_R);
 
   /* USER CODE END 2 */
 
